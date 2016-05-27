@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Open Up</title>
+
+		<meta name="description" content="Open Up : Lesson 2 DNS servers">
+		<meta name="author" content="Tellier Benoit">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+	
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+
+
+<section>
+<img data-src="img/large.png"><br/>
+<img data-src="img/openup.png">
+
+<h2>Time management, open source, etc...</h2>
+
+<p>Speaker : <a>Benoit Tellier</a></p>
+
+<p><small>
+Retrieve this presentation online : <a href="https://rawgit.com/Open-Up/openup02_14/master/presentation/index.html">https://rawgit.com/Open-Up/openup02_14/master/presentation/index.html</a><br/>
+And on <a href="https://github.com/Open-Up/openup02_14/">GitHub</a></small>
+</p>
+</section>
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+<section>
+<h2>Objectives</h2>
+<ul>
+  <li class="fragment">Better knowledge of Free software</li>
+  <li class="fragment">Time management in distributed systems</li>
+  <li class="fragment">Sum up semester 2</li>
+</ul>
+</section>
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+
+<section>
+
+  <section>
+    <h2>What does Open source mean</h2>
+    <div class=fragment>
+      <p>Access to the source code</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What does "free" mean</h2>
+    <div class=fragment>
+      <ul>
+        <li>Read the source code</li>
+        <li>Modify it</li>
+        <li>Redistribute it (and my modifications)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Free software advantages</h2>
+    <div class=fragment>
+      <ul>
+        <li>Visibility for developers</li>
+        <li>Fame for the company</li>
+        <li>Knowledge, resource sharing with other actors</li>
+        <li>Governance</li>
+        <li>Adapt to my needs</li>
+        <li>Less expansive</li>
+        <li>...</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Making money with free software</h2>
+    <div class=fragment>
+      <ul>
+        <li>Sell instalation</li>
+        <li>Sell customization</li>
+        <li>Sell support</li>
+        <li>Not on your core product</li>
+        <li>...</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Licenses</h2>
+  </section>
+
+  <section>
+    <h2>Creative commons</h2>
+    <div class=fragment>
+    <img data-src="img/cc.png">
+    </div>
+    <div class=fragment>
+      <p>Wikipedia, ...</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Apache</h2>
+    <div class=fragment>
+      <ul>
+         <li>License in each file</li>
+         <li>Always keep initial license</li>
+         <li>Read, execute</li>
+         <li>No linking restriction</li>
+         <li>Preserve trademark</li>
+      </ul>
+    </div>
+    <div class=fragment>
+      <p>Apache2, Java ...</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>MIT license</h2>
+    <div class=fragment>
+      <ul>
+         <li>...</li>
+         <li>Right to sub license</li>
+      </ul>
+    </div>
+    <div class=fragment>
+      <p>RoR, Node.js ...</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pay attention to licenses</h2>
+    <img data-src="img/uncle_sam.jpg" widht="250" height="500">
+  </section>
+
+</section>
+
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+<section>
+
+  <section>
+    <h1>Time in distributed systems</h1>
+  </section>
+
+  <section>
+    <h2>NTP client</h2>
+    <pre><code>apt-get install ntp</code></pre>
+    <pre class="fragment"><code>date -R</code></pre>
+    <pre class="fragment"><code>ntpq -p</code></pre>
+  </section>
+
+  <section>
+    <h2>NTP server</h2>
+    <pre><code>apt-get install ntp ntpdate</code></pre>
+    <pre class="fragment"><code>driftfile /var/lib/ntp/ntp.drift
+
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+
+server ntp1.int-evry.fr iburst
+server ntp2.int-evry.fr iburst
+server ntp1.minet.net iburst
+server 127.127.1.0
+
+restrict ::1
+restrict 127.0.0.1
+restrict 192.168.0.0 mask 255.255.0.0
+restrict 157.159.0.0 mask 255.255.0.0
+
+#broadcast 192.168.123.255
+#broadcastclient</code></pre>
+    <pre class="fragment"><code>ntpdate -u ntp1.int-evry.fr</code></pre>
+  </section>
+
+</section>
+
+
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+
+
+
+
+
+<section>
+
+  <section>
+    <h1>What to remember from semester 2</h1>
+  </section>
+
+
+  <section>
+    <h2>Protocols</h2>
+    <ul>
+      <li class="fragment">FTP</li>
+      <li class="fragment">SSH</li>
+      <li class="fragment">TELNET</li>
+      <li class="fragment">HTTP</li>
+      <li class="fragment">HTTPS</li>
+      <li class="fragment">IMAP</li>
+      <li class="fragment">POP3</li>
+      <li class="fragment">SMTP</li>
+      <li class="fragment">JMAP</li>
+      <li class="fragment">LMTP</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Protocols</h2>
+    <ul>
+      <li class="fragment">NFS</li>
+      <li class="fragment">CARP</li>
+      <li class="fragment">DHCP</li>
+      <li class="fragment">SYSLOG</li>
+      <li class="fragment">DNS</li>
+      <li class="fragment">...</li>
+    </ul>
+  </section>
+
+
+  <section>
+    <h2>Notions</h2>
+    <ul>
+      <li class="fragment">Replication</li>
+      <li class="fragment">Virtualization</li>
+      <li class="fragment">Load balancing</li>
+      <li class="fragment">Web infrastructure</li>
+      <li class="fragment">Mail infrastructure</li>
+      <li class="fragment">Monitoring</li>
+      <li class="fragment">Mog management</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Servers we installed</h2>
+    <ul>
+      <li class="fragment">APACHE2</li>
+      <li class="fragment">NGINX</li>
+      <li class="fragment">Bind9</li>
+      <li class="fragment">DHCPD</li>
+      <li class="fragment">NFS kernel server</li>
+      <li class="fragment">Samba</li>
+      <li class="fragment">Postfix</li>
+      <li class="fragment">Cyrus</li>
+      <li class="fragment">Zabbix</li>
+      <li class="fragment">ELK</li>
+      <li class="fragment">HAProxy</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Kahout !</h2>
+  </section>
+
+</section>
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+<section>
+
+  <section>
+    <h1>What we could have seen</h1>
+  </section>
+
+  <section>
+    <h2>Proxy servers</h2>
+    <img data-src="img/proxy.png">
+  </section>
+
+  <section>
+    <h2>Proxy servers</h2>
+    <ul>
+      <li class="fragment">Cache</li>
+      <li class="fragment">Access control</li>
+      <li class="fragment">Log visited pages</li>
+      <li class="fragment">HTTP access without internet access</li>
+    </ul>
+    <p class="fragment">Squid 3</p>
+  </section>
+
+  <section>
+    <h2>FTP servers</h2>
+    <p class="fragment">ProFTPd</p>
+    <p class="fragment">Security considerations, SFTP</p>
+  </section>
+
+  <section>
+    <h2>A journey over security</h2>
+    <ul>
+      <li class="fragment">fail2ban</li>
+      <li class="fragment">Snort</li>
+      <li class="fragment">OpenVPN (TUN / TAP)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>IDS servers</h2>
+    <img data-src="img/ids.png">
+  </section>
+
+  <section>
+    <h2>What else can you install ?</h2>
+    <ul>
+      <li class="fragment">IRC</li>
+      <li class="fragment">Web services</li>
+      <li class="fragment">Music streaming services</li>
+      <li class="fragment">Gitlab</li>
+      <li class="fragment">...</li>
+    </ul>
+  </section>
+
+</section>
+
+<!--------------------------------------------------
+----------------------------------------------------
+================================================----
+NEW SECTION NEW SECTION NEW SECTION NEW SECTION=----
+================================================----
+----------------------------------------------------
+---------------------------------------------------->
+
+<section>
+	<h1>Questions ?</h1>
+</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				slideNumber: true,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                                
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
